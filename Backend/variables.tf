@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "audio_s3_bucket_name" {
   description = "S3 bucket for storing generated audio files"
   type        = string
-  default     = "text-to-speech-audio-bucket-12345"
+  default     = "text-to-speech-audio-bucket"
 }
  
 variable "lambda_function_name" {

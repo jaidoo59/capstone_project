@@ -18,7 +18,7 @@ output "audio_bucket_name" {
  
 # API Gateway endpoint (if API Gateway is deployed)
 output "api_endpoint" {
-  value       = aws_api_gateway_rest_api.tts_api.execution_arn
+  value       = aws_api_gateway_stage.tts_stage.invoke_url
   description = "Invoke URL for the Text-to-Speech API"
 }
  

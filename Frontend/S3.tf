@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "frontend_bucket" {
-  bucket = var.s3_bucket_name
+  bucket = "${var.s3_bucket_name}-${random_id.frontend_bucket_suffix.hex}"
  
   tags = {
     Name        = "TextToSpeechFrontend"

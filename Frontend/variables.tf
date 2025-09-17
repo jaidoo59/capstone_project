@@ -2,6 +2,12 @@
 variable "s3_bucket_name" {
   description = "The unique name for the S3 bucket hosting the frontend"
   type        = string
+  default     = "text-to-speech-frontend"
+}
+
+# Random ID for unique bucket naming
+resource "random_id" "frontend_bucket_suffix" {
+  byte_length = 4
 }
 
 # Deployment environment (e.g., Dev, Staging, Prod)
@@ -11,14 +17,4 @@ variable "environment" {
   default     = "Dev"
 }
 
-# CloudFront Origin Access Identity (OAI) IAM ARN
-variable "oai_iam_arn" {
-  description = "The IAM ARN of the CloudFront Origin Access Identity"
-  type        = string
-}
 
-# CloudFront Origin Access Identity (OAI) Path
-variable "oai_path" {
-  description = "The CloudFront OAI path used in the distribution"
-  type        = string
-}

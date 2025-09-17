@@ -30,8 +30,7 @@ resource "aws_iam_policy" "lambda_policy" {
         ]
         Effect   = "Allow"
         Resource = [
-          "*", # Broad for Polly, will be restricted for S3
-          "${aws_s3_bucket.audio_bucket.arn}/*"
+          "*"
         ]
       },
       {
