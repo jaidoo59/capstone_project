@@ -19,7 +19,7 @@ variable "lambda_function_name" {
 variable "lambda_handler" {
   description = "Lambda function handler"
   type        = string
-  default     = "lambda_txt2speech.lambda_handler"
+  default     = "lambda.lambda_handler"
 }
  
 variable "lambda_runtime" {

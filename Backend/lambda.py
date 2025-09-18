@@ -1,9 +1,14 @@
 import boto3
 import json
-import base64
+import uuid
+import os
  
-# AWS Polly client
+# AWS clients
 polly = boto3.client("polly")
+s3 = boto3.client("s3")
+
+# S3 bucket name from environment variable
+BUCKET_NAME = os.environ.get('AUDIO_BUCKET_NAME')
  
 def lambda_handler(event, context):
     # CORS headers
@@ -29,12 +34,30 @@ def lambda_handler(event, context):
         )
         # Read audio data
         audio_data = response["AudioStream"].read()
-        # Return audio + original text
+        
+        # Generate unique filename
+        filename = f"audio/{uuid.uuid4()}.mp3"
+        
+        # Upload to S3
+        s3.put_object(
+            Bucket=BUCKET_NAME,
+            Key=filename,
+            Body=audio_data,
+            ContentType="audio/mpeg"
+        )
+        
+        # Generate presigned URL (valid for 1 hour)
+        url = s3.generate_presigned_url(
+            'get_object',
+            Params={'Bucket': BUCKET_NAME, 'Key': filename},
+            ExpiresIn=3600
+        )
+        
         return {
             "statusCode": 200,
             "headers": headers,
             "body": json.dumps({
-                "audio": base64.b64encode(audio_data).decode('utf-8'),
+                "url": url,
                 "originalText": text,
                 "voiceUsed": voice
             })

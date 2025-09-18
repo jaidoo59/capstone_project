@@ -30,6 +30,12 @@ resource "aws_iam_role_policy_attachment" "lambda_translate" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/TranslateFullAccess"
 }
+
+# Basic Lambda execution permissions
+resource "aws_iam_role_policy_attachment" "lambda_basic" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
  
 
 # Lambda Function
@@ -45,7 +51,7 @@ resource "aws_lambda_function" "text_to_speech" {
  
   environment {
     variables = {
-      AUDIO_BUCKET = aws_s3_bucket.audio_bucket.bucket
+      AUDIO_BUCKET_NAME = aws_s3_bucket.audio_bucket.bucket
     }
   }
 }

@@ -7,6 +7,15 @@ resource "aws_s3_bucket" "frontend_bucket" {
   }
 }
  
+resource "aws_s3_bucket_public_access_block" "frontend_bucket_pab" {
+  bucket = aws_s3_bucket.frontend_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = false
+  ignore_public_acls      = true
+  restrict_public_buckets = false
+}
+
 resource "aws_s3_bucket_website_configuration" "frontend_website" {
   bucket = aws_s3_bucket.frontend_bucket.id
  
@@ -23,6 +32,7 @@ resource "aws_s3_bucket_website_configuration" "frontend_website" {
 resource "aws_s3_bucket_policy" "frontend_policy" {
   bucket = aws_s3_bucket.frontend_bucket.id
   policy = data.aws_iam_policy_document.s3_policy.json
+  depends_on = [aws_s3_bucket_public_access_block.frontend_bucket_pab]
 }
  
 # IAM policy document to attach to bucket policy

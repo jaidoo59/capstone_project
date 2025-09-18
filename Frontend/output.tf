@@ -15,3 +15,9 @@ output "frontend_bucket_website_endpoint" {
   description = "The S3 static website endpoint for the frontend bucket"
   value       = aws_s3_bucket_website_configuration.frontend_website.website_endpoint
 }
+
+# Output the CloudFront distribution URL
+output "cloudfront_distribution_url" {
+  description = "The CloudFront distribution URL for the frontend"
+  value       = aws_cloudfront_distribution.frontend_cdn.domain_name
+}
